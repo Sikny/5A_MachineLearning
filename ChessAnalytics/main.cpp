@@ -1,6 +1,3 @@
-#include <iostream>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+extern "C"{
+    //__declspec(dllexport) MyMLP * createMLPModel(int npl[], int nplSize) {}
 }
