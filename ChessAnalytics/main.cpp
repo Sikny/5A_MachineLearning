@@ -19,7 +19,7 @@ extern "C"{
             }
         }
         Eigen::MatrixXd W = ((X.transpose() * X).inverse() * X.transpose()) * Y;    // vector
-        for(int i = 0; i < inputDim; ++i){
+        for(int i = 0; i < inputDim+1; ++i){
             result[i] = W(i, 0);
         }
         return result;
