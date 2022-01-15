@@ -4,7 +4,7 @@ extern "C"{
     __declspec(dllexport) double* predictLinearModelRegression(double sampleInputs[],
                double sampleExpectedOutputs[], int sampleCount, int inputDim,
                int outputDim){
-        double* result = new double[inputDim*sampleCount];
+        double* result = new double[inputDim+1];
 
         Eigen::MatrixXd X(inputDim, sampleCount);
         Eigen::MatrixXd Y(inputDim, sampleCount);
