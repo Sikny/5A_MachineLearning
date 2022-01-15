@@ -1,7 +1,7 @@
 #include "Eigen/Dense"
 
 struct MLP {
-    
+
 };
 
 extern "C" {
@@ -43,6 +43,7 @@ extern "C" {
 
     __declspec(dllexport) double *predictMlpModelRegression(MLP *model, double sampleInputs[], int inputDim) {
         // todo
+        return 0;
     }
 
     __declspec(dllexport) void destroyMlpModel(MLP *model) {
