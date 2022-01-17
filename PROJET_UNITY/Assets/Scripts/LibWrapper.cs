@@ -18,4 +18,8 @@ public class LibWrapper
     [DllImport("ChessAnalytics")]
     public static extern void trainMlpModelRegression(IntPtr model, double[] samplesInputs,
         double[] samplesExpectedOutputs, int sampleCount, int inputDim, int outputDim, double alpha, int nbIter);
+
+    [DllImport("ChessAnalytics")]
+    public static extern IntPtr predictLinearModelRegression(double[] sampleInputs,
+        double[] samplesExpectedOutputs, int sampleCount, int inputDim, int outputDim);
 }

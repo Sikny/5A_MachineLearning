@@ -31,6 +31,7 @@ public class UseDllBehaviourEvaluateWithTrain : MonoBehaviour
             {
                 Debug.Log(elt);
             }
+            LibWrapper.destroyMlpResult(resultPtr);
         }
         
         Debug.Log("training...");
@@ -61,6 +62,9 @@ public class UseDllBehaviourEvaluateWithTrain : MonoBehaviour
             {
                 Debug.Log(elt);
             }
+            LibWrapper.destroyMlpResult(resultPtr);
         }
+        
+        LibWrapper.destroyMlpModel(model);
     }
 }
