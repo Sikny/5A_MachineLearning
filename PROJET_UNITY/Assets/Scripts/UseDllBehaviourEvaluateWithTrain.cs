@@ -17,7 +17,7 @@ public class UseDllBehaviourEvaluateWithTrain : MonoBehaviour
             new[] {-1.0},
             new[] {1.0},
             new[] {1.0},
-            new[] {-1.0},
+            new[] {-42.0},
         };
 
         var model = LibWrapper.createMlpModel(new[] { 2, 3, 1 }, 3);
@@ -51,7 +51,7 @@ public class UseDllBehaviourEvaluateWithTrain : MonoBehaviour
                 dataOutputOneArray[i * datasetExpectedOutputs[0].Length + j] = datasetExpectedOutputs[i][j];
             }
         }
-        LibWrapper.trainMlpModelRegression(model, dataInputOneArray, dataOutputOneArray, 4, 2, 1, 0.01, 100000);
+        LibWrapper.trainMlpModelRegression(model, dataInputOneArray, dataOutputOneArray, 4, 2, 1, 0.0005, 10000000);
         Debug.Log("After train :");
         foreach (var sampleInput in datasetInputs)
         {

@@ -18,9 +18,10 @@ public:
 extern "C" {
     __declspec(dllexport) double *predictLinearModelRegression(double sampleInputs[],
                double sampleExpectedOutputs[], int sampleCount, int inputDim, int outputDim) {
+        //return new double(42);
         double *result = new double[inputDim + 1];
 
-        Eigen::MatrixXd X(inputDim, sampleCount);
+        Eigen::MatrixXd X(inputDim, sampleCount);   // inverse col/row & +1 => biais
         Eigen::MatrixXd Y(inputDim, sampleCount);
         for (int i = 0; i < sampleCount; ++i) {
             for (int j = 0; j < inputDim; ++j) {
@@ -127,8 +128,8 @@ extern "C" {
         for(int it = 0; it < nbIter; ++it){
             int randInt = rand()%(sampleCount);
             int k = randInt;
-            auto sampleInputs = samplesInputs + k;
-            auto sampleExpectedOutput = samplesExpectedOutputs + k;
+            auto sampleInputs = samplesInputs + k * inputDim;
+            auto sampleExpectedOutput = samplesExpectedOutputs + k * outputDim;
 
             forwardPassMlpRegression(model, sampleInputs, inputDim);
 
