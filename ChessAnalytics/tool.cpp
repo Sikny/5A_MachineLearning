@@ -16,8 +16,8 @@ public:
 };
 
 extern "C" {
-    __declspec(dllexport) double *predictLinearModelRegression(double sampleInputs[], double sampleExpectedOutputs[],
-                   int sampleCount, int inputDim, int outputDim) {
+    __declspec(dllexport) double *predictLinearModelRegression(double sampleInputs[],
+               double sampleExpectedOutputs[], int sampleCount, int inputDim, int outputDim) {
         double *result = new double[inputDim + 1];
 
         Eigen::MatrixXd X(inputDim, sampleCount);
@@ -123,7 +123,7 @@ extern "C" {
     }
 
     _declspec(dllexport) void trainMlpModelRegression(MLP *model, double samplesInputs[], double samplesExpectedOutputs[],
-                                     int sampleCount, int inputDim, int outputDim, double alpha, int nbIter) {
+                     int sampleCount, int inputDim, int outputDim, double alpha, int nbIter) {
         for(int it = 0; it < nbIter; ++it){
             int randInt = rand()%(sampleCount);
             int k = randInt;
@@ -158,5 +158,19 @@ extern "C" {
                 }
             }
         }
+    }
+
+    double evaluateModelAccuracy(MLP* model, double samplesInputs[], double samplesExpectedOutputs[],
+                                 int sampleCount, int inputDim, int outputDim){
+        double totalGoodPredictions = 0.0;
+        for(int i = 0; i < sampleCount; ++i){
+            auto sampleInputs = samplesInputs + i;
+            auto sampleExpectedOutputs = samplesExpectedOutputs + i;
+            double* v = predictMlpModelRegression(model, sampleInputs, inputDim);
+            if(v[0] * sampleExpectedOutputs[0] >= 0){
+                totalGoodPredictions += 1;
+            }
+        }
+        return totalGoodPredictions / sampleCount;
     }
 }
