@@ -89,11 +89,11 @@ extern "C" {
         delete[] result;
     }
 
-    _declspec(dllexport) void forwardPassMlpRegression(MLP *model, double samplesInputs[], int sampleInputsSize) {
+    _declspec(dllexport) void forwardPassMlpRegression(MLP *model, double sampleInputs[], int sampleInputsSize) {
         assert(sampleInputsSize == model->npl[0]);
 
         for(int j = 1; j < model->npl[0] + 1; ++j){
-            model->X[0][j] = samplesInputs[j - 1];
+            model->X[0][j] = sampleInputs[j - 1];
         }
 
         for(int l = 1; l < model->L + 1; ++l){
