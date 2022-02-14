@@ -17,13 +17,13 @@ public:
         expectedOutput.push_back(expectedOut);
         output.push_back({0});
     }
-    const std::vector<std::vector<float>>& Inputs()const{
+    std::vector<std::vector<float>>& Inputs(){
         return inputs;
     }
-    const std::vector<std::vector<float>>& Output() const{
+    std::vector<std::vector<float>>& Output() {
         return output;
     }
-    const std::vector<std::vector<float>>& ExpectedOutput() const{
+    std::vector<std::vector<float>>& ExpectedOutput() {
         return expectedOutput;
     }
 

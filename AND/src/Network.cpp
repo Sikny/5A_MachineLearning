@@ -56,7 +56,7 @@ void Network::train(DataSet &dataset, int nbLoop, float learningRate) {
     }
 }
 
-void Network::compute(const std::vector<float> &input, const std::vector<float> &output, bool isSig) {
+void Network::compute(const std::vector<float> &input, std::vector<float> &output, bool isSig) {
     //Copy la list
     std::vector<float> vals(input.begin(), input.end());
 
@@ -77,7 +77,7 @@ void Network::compute(const std::vector<float> &input, const std::vector<float> 
 }
 
 
-float Network::evaluate(const DataSet& dataset,float threshold, int nbLoop) {
+float Network::evaluate(DataSet& dataset,float threshold, int nbLoop) {
     std::vector<float> deltaVec;
     for (int i = 0; i < sizes.size(); ++i) {
         deltaVec.push_back((float)sizes[i]);
@@ -105,8 +105,8 @@ float Network::evaluate(const DataSet& dataset,float threshold, int nbLoop) {
 
 
 void Network::backpropagate(const std::vector<float> &expectedOut,
-                            const std::vector<float> &output,
-                            const std::vector<std::vector<float>> &deltasVector, float learningRate, bool isSig) {
+                            std::vector<float> &output,
+                            std::vector<std::vector<float>> &deltasVector, float learningRate, bool isSig) {
     std::vector<float> &outputLayerDeltas = deltasVector.back();
     std::vector<float> &outputLayerValues = treatedVals.back();
     for (int j = 0; j < outputLayerValues.size(); ++j) {
