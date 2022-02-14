@@ -36,7 +36,7 @@ void Network::addLayer(int nbNeuron) {
     }
 }
 
-void Network::train(const DataSet &dataset, int nbLoop, float learningRate) {
+void Network::train(DataSet &dataset, int nbLoop, float learningRate) {
     std::random_device rdmD;
     std::mt19937 seed(rdmD());
     std::uniform_int_distribution<> dist(0, dataset.Inputs().size() - 1);
@@ -56,7 +56,7 @@ void Network::train(const DataSet &dataset, int nbLoop, float learningRate) {
     }
 }
 
-void Network::compute(std::vector<float> &input, std::vector<float> &output, bool isSig) {
+void Network::compute(const std::vector<float> &input, const std::vector<float> &output, bool isSig) {
     //Copy la list
     std::vector<float> vals(input.begin(), input.end());
 
@@ -77,13 +77,36 @@ void Network::compute(std::vector<float> &input, std::vector<float> &output, boo
 }
 
 
-void Network::evaluate() {
+float Network::evaluate(const DataSet& dataset,float threshold, int nbLoop) {
+    std::vector<float> deltaVec;
+    for (int i = 0; i < sizes.size(); ++i) {
+        deltaVec.push_back((float)sizes[i]);
+    }
+    int goodResult=0;
+    for (int i = 0; i < nbLoop; ++i) {
+        std::vector<float>& in = dataset.Inputs()[i];
+        compute(in,dataset.Output()[i]);
+        treatedVals.clear();
+        bool error = false;
+        for (int j = 0; j < dataset.Output().size(); ++j) {
+            float diff = abs(dataset.Output()[i][j] - dataset.ExpectedOutput()[i][j]);
+            if(diff > threshold){
+                error = true;
+                break;
+            }
+        }
+        if(!error){
+            goodResult++;
+        }
+    }
 
+    return goodResult/static_cast<float>(dataset.Inputs().size());
 }
 
 
-void Network::backpropagate(std::vector<float> &expectedOut, std::vector<float> &output,
-                            std::vector<std::vector<float>> &deltasVector, float learningRate, bool isSig) {
+void Network::backpropagate(const std::vector<float> &expectedOut,
+                            const std::vector<float> &output,
+                            const std::vector<std::vector<float>> &deltasVector, float learningRate, bool isSig) {
     std::vector<float> &outputLayerDeltas = deltasVector.back();
     std::vector<float> &outputLayerValues = treatedVals.back();
     for (int j = 0; j < outputLayerValues.size(); ++j) {

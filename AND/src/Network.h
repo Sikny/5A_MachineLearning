@@ -12,16 +12,17 @@ private :
     std::vector<int> sizes;
     std::vector<Matrix<float>> matrix;
     std::vector<std::vector<float>> treatedVals;
-    void backpropagate(std::vector<float>& expectedOut,
-                       std::vector<float>& output, std::vector<std::vector<float>>& deltasVector,
+    void backpropagate(const std::vector<float>& expectedOut,
+                       const std::vector<float>& output,
+                       const std::vector<std::vector<float>>& deltasVector,
                        float learningRate,bool isSig);
 
 public:
     Network() = default;
     void addLayer(int nbNeuron);
-    void compute(std::vector<float>& input, std::vector<float>& output, bool isSig = true);
-    void train(const DataSet& dataSet, int nbLoop=1000, float learningRate =0.01f);
-    void evaluate();
+    void compute(const std::vector<float>& input, const std::vector<float>& output, bool isSig = true);
+    void train(DataSet& dataSet, int nbLoop=1000, float learningRate =0.01f);
+    float evaluate(const DataSet& dataset, float threshold, int nbLoop = 1000);
 
 };
 

@@ -7,7 +7,9 @@
 #include "vector"
 #include "Matrix.h"
 class DataSet {
-    std::vector<std::vector<float>>& inputs,& expectedOutput,&output;
+    std::vector<std::vector<float>> inputs;
+    std::vector<std::vector<float>> expectedOutput;
+    std::vector<std::vector<float>> output;
 public:
     DataSet();
     void addData(const std::vector<float>& in, const std::vector<float>& expectedOut){
@@ -15,15 +17,16 @@ public:
         expectedOutput.push_back(expectedOut);
         output.push_back({0});
     }
-    std::vector<std::vector<float>>& Inputs() const{
+    const std::vector<std::vector<float>>& Inputs()const{
         return inputs;
     }
-    std::vector<std::vector<float>>& Output() const{
+    const std::vector<std::vector<float>>& Output() const{
         return output;
     }
-    std::vector<std::vector<float>>& ExpectedOutput() const{
+    const std::vector<std::vector<float>>& ExpectedOutput() const{
         return expectedOutput;
     }
+
 };
 
 
