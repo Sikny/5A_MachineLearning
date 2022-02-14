@@ -2,6 +2,7 @@
 // Created by rdher on 09/02/2022.
 //
 
+#include <iostream>
 #include "Network.h"
 #include "random"
 
@@ -44,15 +45,13 @@ void Network::train(DataSet &dataset, int nbLoop, float learningRate) {
     std::vector<std::vector<float>> deltasVector;
     deltasVector.reserve(sizes.size() + 1);//on alloue la place requise
     for (int i = 0; i < sizes.size(); ++i) {
-        {
             deltasVector.emplace_back(sizes[i]);
-        }
+    }
 
-        for (int i = 0; i < nbLoop; ++i) {
-            int index = dist(seed);
-            compute(dataset.Inputs()[index], dataset.Output()[index], index != 0);
-            backpropagate(dataset.ExpectedOutput()[index], dataset.Output()[index], deltasVector, learningRate, index != 0);
-        }
+    for (int j = 0; j < nbLoop; ++j) {
+        int index = dist(seed);
+        compute(dataset.Inputs()[index], dataset.Output()[index], index != 0);
+        backpropagate(dataset.ExpectedOutput()[index], dataset.Output()[index], deltasVector, learningRate, index != 0);
     }
 }
 
@@ -119,7 +118,7 @@ void Network::backpropagate(const std::vector<float> &expectedOut,
             outputLayerDeltas[j] *= 1 - std::powf(outputLayerValues[j], 2);
     }
 
-    for (int l = sizes.size(); l >= 2; --l)//l = la couche
+    for (int l = sizes.size()-1; l >= 1; --l)//l = la couche
     {
         std::vector<float> &currentDeltas = deltasVector[l];
         std::vector<float> &previousDeltas = deltasVector[l - 1];
@@ -140,15 +139,15 @@ void Network::backpropagate(const std::vector<float> &expectedOut,
             total *= (1 - powf(previousValues[i], 2));
             previousDeltas[i] = total;
         }
-        for (int l = 1; l <= sizes.size(); ++l)//pour toutes les couches sauf input
+        for (int l2 = 1; l2 < sizes.size(); ++l2)//pour toutes les couches sauf input
         {
-            Matrix<float> &mat = matrix[l - 1];
-            std::vector<float> &currentDeltas = deltasVector[l];
-            std::vector<float> &previousValues = treatedVals[l - 1];
+            Matrix<float> &mat = matrix[l2 - 1];
+            std::vector<float> &currentDeltas = deltasVector[l2];
+            std::vector<float> &previousValues = treatedVals[l2 - 1];
 
-            for (int i = 0; i < sizes[l - 1] + 1; i++) {
-                float val = i < sizes[l - 1] ? previousValues[i] : 1;//permet de gérer le cas du biais
-                for (int j = 0; j < sizes[l]; j++) {
+            for (int i = 0; i < sizes[l2 - 1] + 1; i++) {
+                float val = i < sizes[l2 - 1] ? previousValues[i] : 1;//permet de gérer le cas du biais
+                for (int j = 0; j < sizes[l2]; j++) {
                     mat(i, j) -= learningRate * val * currentDeltas[j];
                 }
             }
