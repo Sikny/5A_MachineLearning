@@ -40,35 +40,50 @@ int main() {
         inData.push_back(value);
     }
     set.addData(inData, {1});   // white
-    // fin data
 
-
-
+    ///LE TRAIN DE LA HYPE EST PASSER PAR LA
     net.train(set);
 
+
     DataSet set2;
-    // data 1
-    moves = parseMoves("c4 c6 e4 e6 Nf3 d5 cxd5 cxd5 e5 Nc6 d4 Qb6 Be3 Nge7 b3 Nf5 Bg5 Bb4+ Nfd2 Ncxd4 a3 Bxd2+ Nxd2 Bd7 Bd3 O-O O-O h6 Bf6 Kh7 Nf3 gxf6 exf6 Bb5 Ng5+ hxg5 Qh5+ Kg8 Qxg5+ Kh7 Qg7#");
+
+    inData.clear();
+    moves = parseMoves("d4 d5 Bf4 c5 e3 cxd4 exd4 e6 Nf3 Nc6 c3 h6 Qa4 Bd7 Bb5 g5 Bg3 g4 Ne5 Nxe5 Bxe5 a6 Bxd7+ Qxd7 Qxd7+ Kxd7 Bxh8 Ne7");
     for(auto& move : moves){
         float value = mapper.registerMove(move);
         inData.push_back(value);
     }
-    set2.addData(inData, {1});   // white, 0 si black
-    // fin data
-    // data 2
-    moves = parseMoves("e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Bd3 Nd7 Nc3 Bxd3 Qxd3 e6 Nf3 Ngf6 Bg5 h6 Bh4 Be7 Bg3 a5 O-O a4 Ne5 O-O a3 c5 Rad1 Nb6 Qb5 cxd4 Nxa4 Nxa4 Qxb7 Nc5 Qf3 Na4 Nc6 Qd7 Rxd4 Nd5 Ne5 Qb5 Rfd1 Nxb2 Rb1 Bc5 Rh4 Rxa3 Qg4 Nc3 Re1 Nbd1 Qxg7+ Kxg7 Rg4+ Kh7 Rh4 Ne2+ Kf1 Nxg3+");
+    set2.addData(inData, {1});   // white
+
+
+    inData.clear();
+    moves = parseMoves("d4 Nf6 Nf3 e6 e3 b6 Bd3 Bb7 c4 c5 Qc2 Bxf3 gxf3 cxd4 exd4 Nc6 d5 Nb4 Qc3 Rc8 a3 Nfxd5 Qb3 Nxd3+ Qxd3 Qc7 cxd5 Qxc1+ Qd1 Qxb2 dxe6 Rc1 exd7+ Kd8 Nd2 Rxa1 O-O Rxd1 Rxd1 Qc2");
     for(auto& move : moves){
         float value = mapper.registerMove(move);
         inData.push_back(value);
     }
-    set2.addData(inData, {0});   // white, 0 si black
-    // fin data
+    set2.addData(inData, {0});   // black
+
+    inData.clear();
+    moves = parseMoves("d4 d5 c4 e6 Nc3 Bb4 Bd2 dxc4 e3 Bxc3 Bxc3 Qd5 Qa4+ b5 Qb4 Nc6 Qc5 a5 Qxd5 exd5 a3 Nge7 Nf3 Ba6 Be2 b4 axb4 axb4 Bd2 b3 O-O O-O Ne5 Nxe5 dxe5 g6 Bf3 c3 Bxc3 Bxf1 Rxa8 Rxa8 Kxf1 Ra1+ Ke2 c6 e4 dxe4 Bxe4 Ra4 f4 Rxe4+");
+    for(auto& move : moves){
+        float value = mapper.registerMove(move);
+        inData.push_back(value);
+    }
+    set2.addData(inData, {0});   // black
+
+
+    inData.clear();
+    moves = parseMoves("e3 e5 d4 Nc6 dxe5 Nxe5 Nf3 Bd6 Nxe5 Bxe5 Qf3 Qf6 Qd5 Ne7 Qd1 O-O h4 Bxb2 Bxb2 Qxb2 Nd2 Qb3 Nxb3");
+    for(auto& move : moves){
+        float value = mapper.registerMove(move);
+        inData.push_back(value);
+    }
+    set2.addData(inData, {1});   // black
+
+
+
     float error = net.evaluate(set2,0.25);
-    std::cout << set.Inputs().size() <<std::endl;
-    std::cout << set.ExpectedOutput().size() <<std::endl;
-    std::cout << set.Output().size() <<std::endl;
-
-
 
     return 0;
 }
