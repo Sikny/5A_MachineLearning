@@ -77,29 +77,12 @@ void Network::compute(const std::vector<float> &input, std::vector<float> &outpu
 
 
 float Network::evaluate(DataSet& dataset,float threshold, int nbLoop) {
-    std::vector<float> deltaVec;
-    for (int i = 0; i < sizes.size(); ++i) {
-        deltaVec.push_back((float)sizes[i]);
-    }
-    int goodResult=0;
-    for (int i = 0; i < nbLoop; ++i) {
-        std::vector<float>& in = dataset.Inputs()[i];
-        compute(in,dataset.Output()[i]);
-        treatedVals.clear();
-        bool error = false;
-        for (int j = 0; j < dataset.Output().size(); ++j) {
-            float diff = abs(dataset.Output()[i][j] - dataset.ExpectedOutput()[i][j]);
-            if(diff > threshold){
-                error = true;
-                break;
-            }
-        }
-        if(!error){
-            goodResult++;
-        }
+
+    for (int i = 0; i < dataset.ExpectedOutput().size(); ++i) {
+        compute(dataset.Inputs()[i], dataset.Output()[i]);
     }
 
-    return goodResult/static_cast<float>(dataset.Inputs().size());
+    return Network::meanAbsoluteError(dataset);
 }
 
 
@@ -154,4 +137,5 @@ void Network::backpropagate(const std::vector<float> &expectedOut,
         }
     }
 }
+
 
