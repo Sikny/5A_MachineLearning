@@ -8,4 +8,4 @@ add_executable(AND main.cpp
         src/Network.cpp
         src/Network.h
         src/DataSet.cpp
-        src/DataSet.h)
+        src/DataSet.h src/MoveMapper.cpp src/MoveMapper.h src/MoveParser.cpp src/MoveParser.h)
