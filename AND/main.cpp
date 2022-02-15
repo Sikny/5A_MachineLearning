@@ -5,7 +5,7 @@
 #include "src/MoveMapper.h"
 int main() {
     Network net;
-    net.addLayer(2);
+    net.addLayer(10);
     net.addLayer(1);
 
     DataSet set;
@@ -39,29 +39,34 @@ int main() {
         inData.push_back(value);
     }
     set.addData(inData, {1});   // white
-    // fin data
-
-
-    //And dataset
-    /*set.addData({0, 0}, {0});
-    // in : {d4,d5, c4, c6}, {0}
-
-    // in : {0, 5, 9, 12}, {0}
-    //
-    //in : {d4,d5, c4, c6}
-    set.addData({0, 0}, {0});
-    set.addData({1, 0}, {0});
-    set.addData({0, 1}, {0});
-    set.addData({1, 1}, {1});*/
 
     net.train(set);
 
     DataSet set2;
-    //other dataset
-    set2.addData({0.8, 0.9}, {1});
-    set2.addData({0, 0.5}, {0});
-    set2.addData({0.7, 0}, {0});
-    set2.addData({0, 0}, {0});
+
+    inData.clear();
+    moves = parseMoves("d4 d5 Bf4 c5 e3 cxd4 exd4 e6 Nf3 Nc6 c3 h6 Qa4 Bd7 Bb5 g5 Bg3 g4 Ne5 Nxe5 Bxe5 a6 Bxd7+ Qxd7 Qxd7+ Kxd7 Bxh8 Ne7");
+    for(auto& move : moves){
+        float value = mapper.registerMove(move);
+        inData.push_back(value);
+    }
+    set2.addData(inData, {1});   // white
+
+    inData.clear();
+    moves = parseMoves("d4 Nf6 Nf3 e6 e3 b6 Bd3 Bb7 c4 c5 Qc2 Bxf3 gxf3 cxd4 exd4 Nc6 d5 Nb4 Qc3 Rc8 a3 Nfxd5 Qb3 Nxd3+ Qxd3 Qc7 cxd5 Qxc1+ Qd1 Qxb2 dxe6 Rc1 exd7+ Kd8 Nd2 Rxa1 O-O Rxd1 Rxd1 Qc2");
+    for(auto& move : moves){
+        float value = mapper.registerMove(move);
+        inData.push_back(value);
+    }
+    set2.addData(inData, {0});   // black
+
+    inData.clear();
+    moves = parseMoves("e4 e5 Nf3 d6 Bc4 Be6 Bxe6 fxe6 d3 Nc6 O-O d5 exd5 exd5 Re1 Nf6 Nxe5 Nxe5 Rxe5+ Be7 Bg5 Qd6 Bf4 O-O-O Rg5 Qxf4 Rxg7 Bd6 Qd2 Qxh2+ Kf1 Qh1+ Ke2 Rde8+ Kf3 Qh5+ g4 Qh3#");
+    for(auto& move : moves){
+        float value = mapper.registerMove(move);
+        inData.push_back(value);
+    }
+    set2.addData(inData, {0});   // black
 
     float error = net.evaluate(set2,0.25);
     std::cout << set.Inputs().size() <<std::endl;
