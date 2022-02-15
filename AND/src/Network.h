@@ -23,7 +23,20 @@ public:
     void compute(const std::vector<float>& input, std::vector<float>& output, bool isSig = true);
     void train(DataSet& dataSet, int nbLoop=1000, float learningRate =0.01f);
     float evaluate(DataSet& dataset, float threshold, int nbLoop = 1000);
-
+    static float meanAbsoluteError(DataSet& dataset)
+    {
+        float sum = 0;
+        for (int j = 0; j < dataset.Output().size(); ++j) {
+            float dataSum = 0;
+            for (int i = 0; i < dataset.Output()[j].size() ; i++){
+                float outputVal = dataset.Output()[j][i];
+                float expectedVal = dataset.ExpectedOutput()[j][i];
+                dataSum += std::abs(outputVal-expectedVal);
+            }
+            sum += dataSum / (float)dataset.Output()[j].size();
+        }
+        return sum/(float)dataset.Output().size();
+    }
 };
 
 
